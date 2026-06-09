@@ -38,6 +38,7 @@ export default function App() {
   const [teamSize, setTeamSize] = useState(8);
   const [showNames, setShowNames] = useState(false);
   const [shareDataUrl, setShareDataUrl] = useState(null);
+  const [showWhiteTeam, setShowWhiteTeam] = useState(false);
   const [fabOpen, setFabOpen] = useState(false);
 
   // Preload logo image for canvas drawing
@@ -55,7 +56,8 @@ export default function App() {
     ctx.clearRect(0, 0, s.W, s.H);
     drawFieldC(ctx, s.W, s.H, s.sx, s.sy, s.vertical);
     drawArrowsC(ctx, s.sx, s.sy, s.arrows, s.mode, s.arrowStart, s.arrowCtrl, s.curvePhase, s.mouse);
-    drawPlayersC(ctx, s.sx, s.sy, s.players, s.dragging);
+    const visiblePlayers = s.players.filter(p => p.team === 'red' || (p.team === 'white' && showWhiteTeam));
+    drawPlayersC(ctx, s.sx, s.sy, visiblePlayers, s.dragging);
   }
 
   const doResize = useCallback(() => {
@@ -95,11 +97,11 @@ export default function App() {
     s.vertical = window.innerWidth < 680;
     s.FW = s.vertical ? FW_V : FW_H;
     s.FH = s.vertical ? FH_V : FH_H;
-    s.players = buildPlayers(11, s.vertical);
+    s.players = buildPlayers(teamSize, s.vertical);
     doResize();
     window.addEventListener('resize', doResize);
     return () => window.removeEventListener('resize', doResize);
-  }, []);
+  }, [teamSize]);
 
   function tc(fx, fy) { return [fx * s.sx, fy * s.sy]; }
   function tf(cx, cy) { return [cx / s.sx, cy / s.sy]; }
@@ -167,8 +169,8 @@ export default function App() {
       const [cx, cy] = getXY(e); s.mouse = { x: cx, y: cy };
       if (s.mode === 'move' && s.dragging !== null) {
         const [fx, fy] = tf(cx - s.dragOX, cy - s.dragOY);
-        s.players[s.dragging].x = Math.max(5, Math.min(s.FW - 5, fx + PR / s.sx));
-        s.players[s.dragging].y = Math.max(5, Math.min(s.FH - 5, fy + PR / s.sy));
+        s.players[s.dragging].x = Math.max(5, Math.min(s.FW - 5, fx));
+        s.players[s.dragging].y = Math.max(5, Math.min(s.FH - 5, fy));
         draw();
       } else if (s.arrowStart) { draw(); }
     };
@@ -188,8 +190,8 @@ export default function App() {
       if (!s.touchMoved && s.touchStartXY && Math.hypot(cx - s.touchStartXY[0], cy - s.touchStartXY[1]) > 8) s.touchMoved = true;
       if (s.mode === 'move' && s.dragging !== null) {
         const [fx, fy] = tf(cx - s.dragOX, cy - s.dragOY);
-        s.players[s.dragging].x = Math.max(5, Math.min(s.FW - 5, fx + PR / s.sx));
-        s.players[s.dragging].y = Math.max(5, Math.min(s.FH - 5, fy + PR / s.sy));
+        s.players[s.dragging].x = Math.max(5, Math.min(s.FW - 5, fx));
+        s.players[s.dragging].y = Math.max(5, Math.min(s.FH - 5, fy));
         draw();
       } else if (s.arrowStart) { draw(); }
     };
@@ -289,6 +291,10 @@ export default function App() {
           <span>Pizarra táctica</span>
         </div>
         <div style={{ flex: 1 }} />
+        <label className="white-team-toggle">
+          <input type="checkbox" checked={showWhiteTeam} onChange={e => setShowWhiteTeam(e.target.checked)} />
+          <span>Equipo Blanco</span>
+        </label>
         <select className="h-select" value={teamSize} onChange={handleTeamSizeChange}>
           <option value={5}>Fútbol 5</option>
           <option value={8}>Fútbol 8</option>

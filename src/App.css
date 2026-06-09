@@ -20,6 +20,17 @@ header {
 .logo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .club-name { flex: 1; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; line-height: 1.2; }
 .club-name span { display: block; font-size: 10px; font-weight: 500; color: #6080c0; letter-spacing: .1em; }
+.white-team-toggle {
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; user-select: none;
+  font-size: 12px; font-weight: 600; color: #b0c0e0;
+  margin-right: 10px;
+}
+.white-team-toggle input {
+  cursor: pointer; width: 14px; height: 14px;
+  accent-color: #2a50d0;
+}
+
 .h-select {
   appearance: none; background: #162060; border: 1px solid #2a3f8f;
   color: #fff; font-size: 13px; font-weight: 600;
