@@ -1,7 +1,7 @@
 export const ARROW_COL = 'rgba(255,255,180,0.92)';
-export const C_LOCAL = '#e84545';
-export const C_VISIT = '#ffffff';
-export const C_VISIT_TEXT = '#0d1540';
+export const C_LOCAL = '#ffffff';
+export const C_VISIT = '#e84545';
+export const C_VISIT_TEXT = '#fff';
 export const PR = 18;
 
 export function drawFieldC(c, w, h, scx, scy, vertical) {
@@ -150,11 +150,11 @@ export function drawPlayersC(c, scx, scy, players, draggingIdx) {
     c.beginPath(); c.arc(cx, cy, r, 0, Math.PI * 2);
     c.fillStyle = isLocal ? C_LOCAL : C_VISIT; c.fill();
     c.shadowColor = 'transparent'; c.shadowBlur = 0; c.shadowOffsetY = 0;
-    c.strokeStyle = isDrag ? '#ffe060' : (isLocal ? 'rgba(0,0,0,0.3)' : '#1a2a6e');
+    c.strokeStyle = isDrag ? '#ffe060' : (isLocal ? '#1a2a6e' : 'rgba(0,0,0,0.3)');
     c.lineWidth = isDrag ? 3 : 2; c.stroke();
 
     const hasLabel = p.label && p.label.length > 0;
-    c.fillStyle = isLocal ? '#fff' : C_VISIT_TEXT;
+    c.fillStyle = isLocal ? '#0d1540' : C_VISIT_TEXT;
     c.font = 'bold ' + Math.round(r * (hasLabel ? 0.68 : 0.9)) + 'px Inter,system-ui,sans-serif';
     c.textAlign = 'center'; c.textBaseline = 'middle';
     c.fillText(p.num, cx, cy + (hasLabel ? -r * 0.2 : 0.5));
@@ -165,7 +165,7 @@ export function drawPlayersC(c, scx, scy, players, draggingIdx) {
       const lw = c.measureText(p.label).width;
       const lpad = 3, lh = fs + 5;
       const lrx = cx - lw / 2 - lpad, lry = cy + r * 0.18;
-      c.fillStyle = isLocal ? 'rgba(160,15,15,0.88)' : 'rgba(15,25,90,0.88)';
+      c.fillStyle = isLocal ? 'rgba(15,25,90,0.88)' : 'rgba(160,15,15,0.88)';
       c.beginPath();
       if (c.roundRect) c.roundRect(lrx, lry, lw + lpad * 2, lh, 3);
       else c.rect(lrx, lry, lw + lpad * 2, lh);

@@ -20,7 +20,7 @@ export default function App() {
   const canvasRef = useRef(null);
   const logoImgRef = useRef(null);
   const logoReady = useRef(false);
-  const showWhiteTeamRef = useRef(false);
+  const showRedTeamRef = useRef(false);
 
   // All mutable game state lives in a ref to avoid re-render overhead during drag/draw
   const s = useRef({
@@ -39,7 +39,7 @@ export default function App() {
   const [teamSize, setTeamSize] = useState(8);
   const [showNames, setShowNames] = useState(false);
   const [shareDataUrl, setShareDataUrl] = useState(null);
-  const [showWhiteTeam, setShowWhiteTeam] = useState(false);
+  const [showRedTeam, setShowRedTeam] = useState(false);
   const [fabOpen, setFabOpen] = useState(false);
 
   // Preload logo image for canvas drawing
@@ -57,7 +57,7 @@ export default function App() {
     ctx.clearRect(0, 0, s.W, s.H);
     drawFieldC(ctx, s.W, s.H, s.sx, s.sy, s.vertical);
     drawArrowsC(ctx, s.sx, s.sy, s.arrows, s.mode, s.arrowStart, s.arrowCtrl, s.curvePhase, s.mouse);
-    const visiblePlayers = s.players.filter(p => p.team === 0 || (p.team === 1 && showWhiteTeamRef.current));
+    const visiblePlayers = s.players.filter(p => p.team === 0 || (p.team === 1 && showRedTeamRef.current));
     drawPlayersC(ctx, s.sx, s.sy, visiblePlayers, s.dragging);
   }
 
@@ -105,9 +105,9 @@ export default function App() {
   }, [teamSize]);
 
   useEffect(() => {
-    showWhiteTeamRef.current = showWhiteTeam;
+    showRedTeamRef.current = showRedTeam;
     draw();
-  }, [showWhiteTeam]);
+  }, [showRedTeam]);
 
   function tc(fx, fy) { return [fx * s.sx, fy * s.sy]; }
   function tf(cx, cy) { return [cx / s.sx, cy / s.sy]; }
@@ -117,7 +117,7 @@ export default function App() {
     for (let i = s.players.length - 1; i >= 0; i--) {
       const p = s.players[i];
       // Only consider visible players
-      if (p.team === 1 && !showWhiteTeamRef.current) continue;
+      if (p.team === 1 && !showRedTeamRef.current) continue;
       if ((p.x - fx) ** 2 + (p.y - fy) ** 2 < r * r) return i;
     }
     return -1;
@@ -276,7 +276,7 @@ export default function App() {
     c.closePath(); c.clip();
     drawFieldC(c, targetW, targetH, scx, scy, s.vertical);
     drawArrowsC(c, scx, scy, s.arrows, 'move', null, null, 0, null);
-    const visiblePlayersForShare = s.players.filter(p => p.team === 0 || (p.team === 1 && showWhiteTeamRef.current));
+    const visiblePlayersForShare = s.players.filter(p => p.team === 0 || (p.team === 1 && showRedTeamRef.current));
     drawPlayersC(c, scx, scy, visiblePlayersForShare, -1);
     c.restore();
     return out;
@@ -300,10 +300,6 @@ export default function App() {
           <span>Pizarra táctica</span>
         </div>
         <div style={{ flex: 1 }} />
-        <label className="white-team-toggle">
-          <input type="checkbox" checked={showWhiteTeam} onChange={e => setShowWhiteTeam(e.target.checked)} />
-          <span>Equipo Blanco</span>
-        </label>
         <select className="h-select" value={teamSize} onChange={handleTeamSizeChange}>
           <option value={5}>Fútbol 5</option>
           <option value={8}>Fútbol 8</option>
@@ -368,6 +364,10 @@ export default function App() {
         </button>
         {fabOpen && (
           <>
+            <button className={`fab-action fab-move${mode === 'move' ? ' active' : ''}`} onClick={() => { setMode('move'); setFabOpen(false); }} title="Mover fichas">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 9l-3 3 3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></svg>
+              <span>Mover</span>
+            </button>
             <button className="fab-action fab-arrow-straight" onClick={() => setMode('arrow-straight')} title="Flecha recta">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
               <span>Recta</span>
@@ -395,6 +395,10 @@ export default function App() {
             <button className="fab-action fab-share" onClick={() => { openShare(); setFabOpen(false); }} title="Compartir">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
               <span>Compartir</span>
+            </button>
+            <button className={`fab-action fab-red-team${showRedTeam ? ' active' : ''}`} onClick={() => setShowRedTeam(v => !v)} title="Equipo rojo">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+              <span>{showRedTeam ? 'Ocultar R' : 'Mostrar R'}</span>
             </button>
           </>
         )}

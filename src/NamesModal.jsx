@@ -22,11 +22,11 @@ export default function NamesModal({ players, onSave, onClose }) {
         <h3>Editar nombres</h3>
 
         <div className="team-section">
-          <span className="team-label red">⬤ Equipo rojo</span>
+          <span className="team-label white">⬤ Equipo blanco</span>
           <div className="players-grid">
             {locals.map(p => (
               <div className="player-row" key={p.num}>
-                <div className="player-num red">{p.num}</div>
+                <div className="player-num white">{p.num}</div>
                 <input
                   className="player-inp"
                   type="text"
@@ -41,11 +41,11 @@ export default function NamesModal({ players, onSave, onClose }) {
         </div>
 
         <div className="team-section">
-          <span className="team-label white">⬤ Equipo blanco</span>
+          <span className="team-label red">⬤ Equipo rojo</span>
           <div className="players-grid">
             {visits.map(p => (
               <div className="player-row" key={p.num}>
-                <div className="player-num white">{p.num}</div>
+                <div className="player-num red">{p.num}</div>
                 <input
                   className="player-inp"
                   type="text"

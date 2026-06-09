@@ -202,30 +202,16 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 .fab-action svg { margin-bottom: 3px; flex-shrink: 0; }
 
 /* FAB positions in vertical layout (stacked upward from main) */
-.fab-arrow-straight {
-  bottom: 68px;
-}
+.fab-move        { bottom: 68px; }
+.fab-arrow-straight { bottom: 132px; }
+.fab-arrow-curve { bottom: 196px; }
+.fab-delete      { bottom: 260px; }
+.fab-names       { bottom: 324px; }
+.fab-clear       { bottom: 388px; }
+.fab-reset       { bottom: 452px; }
+.fab-share       { bottom: 516px; }
+.fab-red-team    { bottom: 580px; }
 
-.fab-arrow-curve {
-  bottom: 132px;
-}
-
-.fab-delete {
-  bottom: 196px;
-}
-
-.fab-names {
-  bottom: 260px;
-}
-
-.fab-clear {
-  bottom: 324px;
-}
-
-.fab-reset {
-  bottom: 388px;
-}
-
-.fab-share {
-  bottom: 452px;
+.fab-red-team.active {
+  background: rgba(180, 30, 30, 0.35); color: #ff9090; border-color: rgba(230, 80, 80, 0.5);
 }
