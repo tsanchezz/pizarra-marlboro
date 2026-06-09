@@ -57,7 +57,7 @@ export default function App() {
     ctx.clearRect(0, 0, s.W, s.H);
     drawFieldC(ctx, s.W, s.H, s.sx, s.sy, s.vertical);
     drawArrowsC(ctx, s.sx, s.sy, s.arrows, s.mode, s.arrowStart, s.arrowCtrl, s.curvePhase, s.mouse);
-    const visiblePlayers = s.players.filter(p => p.team === 'red' || (p.team === 'white' && showWhiteTeamRef.current));
+    const visiblePlayers = s.players.filter(p => p.team === 0 || (p.team === 1 && showWhiteTeamRef.current));
     drawPlayersC(ctx, s.sx, s.sy, visiblePlayers, s.dragging);
   }
 
