@@ -103,6 +103,10 @@ export default function App() {
     return () => window.removeEventListener('resize', doResize);
   }, [teamSize]);
 
+  useEffect(() => {
+    draw();
+  }, [showWhiteTeam]);
+
   function tc(fx, fy) { return [fx * s.sx, fy * s.sy]; }
   function tf(cx, cy) { return [cx / s.sx, cy / s.sy]; }
 
