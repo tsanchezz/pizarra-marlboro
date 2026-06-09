@@ -139,8 +139,8 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 
 /* FAB - FLOATING ACTION BUTTON */
 .fab-container {
-  position: fixed; top: 16px; left: 16px; z-index: 30;
-  display: none; pointer-events: none;
+  position: fixed; bottom: 20px; right: 20px; z-index: 30;
+  display: none;
 }
 @media (max-width: 679px) {
   .fab-container { display: block; }
@@ -153,63 +153,44 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
   color: #fff; box-shadow: 0 4px 16px rgba(42, 80, 208, 0.4);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0; z-index: 31;
-  pointer-events: auto;
+  padding: 0;
 }
 .fab-main:hover { background: #3560e8; box-shadow: 0 6px 20px rgba(42, 80, 208, 0.6); }
 .fab-main:active { transform: scale(0.95); }
+.fab-main svg { display: block; }
 
 .fab-action {
-  position: absolute; width: 48px; height: 48px;
-  border-radius: 50%; background: rgba(26, 42, 110, 0.7);
-  border: 1px solid rgba(74, 112, 208, 0.5); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
+  position: absolute; width: 44px; height: 44px;
+  border-radius: 50%; background: rgba(26, 42, 110, 0.4);
+  border: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
   color: #90b0e0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0; transform: translateY(0);
+  opacity: 0; transform: scale(0);
   backdrop-filter: blur(8px);
-  pointer-events: auto;
-  left: 0;
-  top: 0;
+  right: 0;
+  font-size: 9px; font-weight: 600; text-align: center; padding: 2px;
 }
 .fab-container.open .fab-action {
-  opacity: 1;
+  opacity: 1; transform: scale(1);
 }
 .fab-action:hover {
-  background: rgba(45, 70, 160, 0.85); color: #c0d0ff; border-color: rgba(100, 150, 240, 0.8);
+  background: rgba(45, 70, 160, 0.6); color: #c0d0ff;
 }
+.fab-action svg { margin-bottom: 2px; flex-shrink: 0; }
 
-/* FAB positions in vertical layout (stacked downward) */
+/* FAB positions in vertical layout (stacked upward from main) */
 .fab-names {
-  transform: translateY(0);
-  top: 64px;
-}
-.fab-container.open .fab-names {
-  transform: translateY(0);
-  opacity: 1;
+  bottom: 68px;
 }
 
 .fab-clear {
-  transform: translateY(0);
-  top: 128px;
-}
-.fab-container.open .fab-clear {
-  transform: translateY(0);
-  opacity: 1;
+  bottom: 128px;
 }
 
 .fab-reset {
-  transform: translateY(0);
-  top: 192px;
-}
-.fab-container.open .fab-reset {
-  transform: translateY(0);
-  opacity: 1;
+  bottom: 188px;
 }
 
 .fab-share {
-  transform: translateY(0);
-  top: 256px;
-}
-.fab-container.open .fab-share {
-  transform: translateY(0);
-  opacity: 1;
+  bottom: 248px;
 }
