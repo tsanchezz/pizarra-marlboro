@@ -157,42 +157,37 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
   .fab-container { display: block; }
 }
 .fab-main {
-  width: 48px; height: 48px;
-  border-radius: 50%; background: rgba(42, 80, 208, 0.5);
+  width: 62px; height: 62px;
+  border-radius: 50%; background: rgba(42, 80, 208, 0.45);
   border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
   color: #fff; box-shadow: 0 4px 12px rgba(42, 80, 208, 0.3);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s;
   flex-shrink: 0; z-index: 31;
   padding: 0;
-  margin-bottom: 8px;
 }
 .fab-main:hover {
-  background: rgba(53, 96, 232, 0.65);
-  box-shadow: 0 6px 16px rgba(42, 80, 208, 0.5);
-  transform: scale(1.1);
+  background: rgba(53, 96, 232, 0.6);
 }
 .fab-main:active { transform: scale(0.95); }
 .fab-container.open .fab-main {
   transform: rotate(45deg);
-  background: rgba(42, 80, 208, 0.65);
+  background: rgba(42, 80, 208, 0.6);
 }
 .fab-main svg { display: block; }
 
 .fab-action {
-  position: absolute; width: 64px; height: 64px;
+  position: absolute; width: 62px; height: 62px;
   border-radius: 50%; background: rgba(26, 42, 110, 0.2);
   border: none; cursor: pointer;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  color: #90b0e0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0; transform: scale(0);
+  display: flex; align-items: center; justify-content: center;
+  color: #90b0e0;
+  opacity: 0; transform: scale(0) translateY(10px);
   backdrop-filter: blur(8px);
-  right: 0;
-  font-size: 10px; font-weight: 600; text-align: center; padding: 4px;
-  line-height: 1.1;
+  right: 0; padding: 0;
 }
 .fab-container.open .fab-action {
-  opacity: 1; transform: scale(1);
+  opacity: 1; transform: scale(1) translateY(0);
 }
 .fab-action:hover {
   background: rgba(45, 70, 160, 0.35); color: #c0d0ff;
@@ -200,30 +195,23 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 .fab-action.active {
   background: rgba(42, 80, 208, 0.4); color: #fff;
 }
-.fab-action svg { margin-bottom: 3px; flex-shrink: 0; }
 
-/* FAB positions in vertical layout (stacked upward from main) */
-.fab-move        { bottom: 68px; animation: fabSlideUp 0.3s ease-out 0.05s both; }
-.fab-arrow-straight { bottom: 132px; animation: fabSlideUp 0.3s ease-out 0.10s both; }
-.fab-arrow-curve { bottom: 196px; animation: fabSlideUp 0.3s ease-out 0.15s both; }
-.fab-delete      { bottom: 260px; animation: fabSlideUp 0.3s ease-out 0.20s both; }
-.fab-names       { bottom: 324px; animation: fabSlideUp 0.3s ease-out 0.25s both; }
-.fab-clear       { bottom: 388px; animation: fabSlideUp 0.3s ease-out 0.30s both; }
-.fab-reset       { bottom: 452px; animation: fabSlideUp 0.3s ease-out 0.35s both; }
-.fab-share       { bottom: 516px; animation: fabSlideUp 0.3s ease-out 0.40s both; }
-.fab-red-team    { bottom: 580px; animation: fabSlideUp 0.3s ease-out 0.45s both; }
+/* Staggered slide-up animation */
+.fab-move           { bottom: 76px;  animation: fabSlideUp 0.25s ease-out 0.02s both; }
+.fab-arrow-straight { bottom: 144px; animation: fabSlideUp 0.25s ease-out 0.06s both; }
+.fab-arrow-curve    { bottom: 212px; animation: fabSlideUp 0.25s ease-out 0.10s both; }
+.fab-delete         { bottom: 280px; animation: fabSlideUp 0.25s ease-out 0.14s both; }
+.fab-names          { bottom: 348px; animation: fabSlideUp 0.25s ease-out 0.18s both; }
+.fab-clear          { bottom: 416px; animation: fabSlideUp 0.25s ease-out 0.22s both; }
+.fab-reset          { bottom: 484px; animation: fabSlideUp 0.25s ease-out 0.26s both; }
+.fab-share          { bottom: 552px; animation: fabSlideUp 0.25s ease-out 0.30s both; }
+.fab-red-team       { bottom: 620px; animation: fabSlideUp 0.25s ease-out 0.34s both; }
 
 @keyframes fabSlideUp {
-  from {
-    opacity: 0;
-    transform: scale(0) translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
+  from { opacity: 0; transform: scale(0.6) translateY(16px); }
+  to   { opacity: 1; transform: scale(1)   translateY(0); }
 }
 
 .fab-red-team.active {
-  background: rgba(180, 30, 30, 0.35); color: #ff9090; border-color: rgba(230, 80, 80, 0.5);
+  background: rgba(180, 30, 30, 0.35); color: #ff9090;
 }
