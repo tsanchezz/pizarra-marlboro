@@ -38,6 +38,8 @@ export default function App() {
   const [teamSize, setTeamSize] = useState(11);
   const [showNames, setShowNames] = useState(false);
   const [shareDataUrl, setShareDataUrl] = useState(null);
+  const [showTeams, setShowTeams] = useState({ red: true, white: true });
+  const [fabOpen, setFabOpen] = useState(false);
 
   // Preload logo image for canvas drawing
   useEffect(() => {
@@ -54,7 +56,8 @@ export default function App() {
     ctx.clearRect(0, 0, s.W, s.H);
     drawFieldC(ctx, s.W, s.H, s.sx, s.sy, s.vertical);
     drawArrowsC(ctx, s.sx, s.sy, s.arrows, s.mode, s.arrowStart, s.arrowCtrl, s.curvePhase, s.mouse);
-    drawPlayersC(ctx, s.sx, s.sy, s.players, s.dragging);
+    const visiblePlayers = s.players.filter(p => (p.team === 'red' && showTeams.red) || (p.team === 'white' && showTeams.white));
+    drawPlayersC(ctx, s.sx, s.sy, visiblePlayers, s.dragging);
   }
 
   const doResize = useCallback(() => {
@@ -232,24 +235,28 @@ export default function App() {
   function buildShareCanvas() {
     const targetW = 900, targetH = Math.round(900 * s.FH / s.FW);
     const scx = targetW / s.FW, scy = targetH / s.FH;
-    const banner = 80, pad = 14;
+    const banner = 120, pad = 16;
     const out = document.createElement('canvas');
     out.width = targetW + pad * 2; out.height = banner + targetH + pad * 2;
     const c = out.getContext('2d');
     c.fillStyle = '#0a0f2e'; c.fillRect(0, 0, out.width, out.height);
     c.fillStyle = '#0d1540'; c.fillRect(0, 0, out.width, banner);
     if (logoReady.current && logoImgRef.current) {
-      const lr = 28, lcx = pad + lr, lcy = banner / 2;
+      const lr = 40, lcx = pad + lr + 8, lcy = banner / 2;
       c.save(); c.beginPath(); c.arc(lcx, lcy, lr, 0, Math.PI * 2); c.clip();
       c.drawImage(logoImgRef.current, lcx - lr, lcy - lr, lr * 2, lr * 2); c.restore();
-      c.strokeStyle = '#2a3f8f'; c.lineWidth = 2;
+      c.strokeStyle = '#2a3f8f'; c.lineWidth = 3;
       c.beginPath(); c.arc(lcx, lcy, lr, 0, Math.PI * 2); c.stroke();
-      const tx = pad + lr * 2 + 12;
-      c.fillStyle = '#fff'; c.font = '800 18px Inter,system-ui,sans-serif';
+      const tx = lcx + lr + 20;
+      c.fillStyle = '#fff'; c.font = 'bold 32px Inter,system-ui,sans-serif';
       c.textAlign = 'left'; c.textBaseline = 'middle';
-      c.fillText('LIBERTADORES DE MARLBORO', tx, banner / 2 - 10);
-      c.fillStyle = '#6080c0'; c.font = '500 12px Inter,system-ui,sans-serif';
-      c.fillText('Pizarra tactica · Futbol ' + s.n, tx, banner / 2 + 12);
+      c.fillText('LIBERTADORES', tx, banner / 2 - 18);
+      c.fillStyle = '#ffd700'; c.font = 'bold 28px Inter,system-ui,sans-serif';
+      c.fillText('DE MARLBORO', tx, banner / 2 + 18);
+      const sx = tx;
+      c.fillStyle = '#6080c0'; c.font = '600 14px Inter,system-ui,sans-serif';
+      c.textAlign = 'left'; c.textBaseline = 'top';
+      c.fillText('Pizarra táctica · Fútbol ' + s.n, sx, banner - 26);
     }
     c.save(); c.translate(pad, banner + pad);
     const rr = 10;
@@ -261,7 +268,8 @@ export default function App() {
     c.closePath(); c.clip();
     drawFieldC(c, targetW, targetH, scx, scy, s.vertical);
     drawArrowsC(c, scx, scy, s.arrows, 'move', null, null, 0, null);
-    drawPlayersC(c, scx, scy, s.players, -1);
+    const visiblePlayers = s.players.filter(p => (p.team === 'red' && showTeams.red) || (p.team === 'white' && showTeams.white));
+    drawPlayersC(c, scx, scy, visiblePlayers, -1);
     c.restore();
     return out;
   }
@@ -282,6 +290,16 @@ export default function App() {
         <div className="club-name">
           Libertadores de Marlboro
           <span>Pizarra táctica</span>
+        </div>
+        <div className="team-toggles">
+          <label className="team-toggle">
+            <input type="checkbox" checked={showTeams.red} onChange={e => { setShowTeams({...showTeams, red: e.target.checked}); s.players = buildPlayers(s.n, s.vertical); draw(); }} />
+            <span className="toggle-label red">Equipo Rojo</span>
+          </label>
+          <label className="team-toggle">
+            <input type="checkbox" checked={showTeams.white} onChange={e => { setShowTeams({...showTeams, white: e.target.checked}); s.players = buildPlayers(s.n, s.vertical); draw(); }} />
+            <span className="toggle-label white">Equipo Blanco</span>
+          </label>
         </div>
         <select className="h-select" value={teamSize} onChange={handleTeamSizeChange}>
           <option value={5}>Fútbol 5</option>
@@ -335,6 +353,31 @@ export default function App() {
 
       <div className="canvas-wrap" id="canvas-wrap">
         <canvas ref={canvasRef} />
+        <div className={`fab-container${fabOpen ? ' open' : ''}`}>
+          <button className="fab-main" onClick={() => setFabOpen(!fabOpen)} title="Herramientas">
+            {fabOpen ? (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            ) : (
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+            )}
+          </button>
+          {fabOpen && (
+            <>
+              <button className="fab-action fab-names" onClick={() => { setShowNames(true); setFabOpen(false); }} title="Nombres">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              </button>
+              <button className="fab-action fab-clear" onClick={() => { s.arrows = []; draw(); setFabOpen(false); }} title="Limpiar flechas">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+              <button className="fab-action fab-reset" onClick={() => { s.players = buildPlayers(s.n, s.vertical); s.arrows = []; draw(); setFabOpen(false); }} title="Reset">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>
+              </button>
+              <button className="fab-action fab-share" onClick={() => { openShare(); setFabOpen(false); }} title="Compartir">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       {showNames && (
