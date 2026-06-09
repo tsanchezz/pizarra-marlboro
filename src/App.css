@@ -146,51 +146,75 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
   .fab-container { display: block; }
 }
 .fab-main {
-  width: 56px; height: 56px;
-  border-radius: 50%; background: #2a50d0;
+  width: 48px; height: 48px;
+  border-radius: 50%; background: rgba(42, 80, 208, 0.5);
   border: none; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
-  color: #fff; box-shadow: 0 4px 16px rgba(42, 80, 208, 0.4);
+  color: #fff; box-shadow: 0 4px 12px rgba(42, 80, 208, 0.3);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   flex-shrink: 0; z-index: 31;
   padding: 0;
 }
-.fab-main:hover { background: #3560e8; box-shadow: 0 6px 20px rgba(42, 80, 208, 0.6); }
+.fab-main:hover {
+  background: rgba(53, 96, 232, 0.65);
+  box-shadow: 0 6px 16px rgba(42, 80, 208, 0.5);
+  transform: scale(1.1);
+}
 .fab-main:active { transform: scale(0.95); }
+.fab-container.open .fab-main {
+  transform: rotate(45deg);
+  background: rgba(42, 80, 208, 0.65);
+}
 .fab-main svg { display: block; }
 
 .fab-action {
-  position: absolute; width: 44px; height: 44px;
-  border-radius: 50%; background: rgba(26, 42, 110, 0.4);
+  position: absolute; width: 56px; height: 56px;
+  border-radius: 50%; background: rgba(26, 42, 110, 0.2);
   border: none; cursor: pointer;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   color: #90b0e0; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   opacity: 0; transform: scale(0);
   backdrop-filter: blur(8px);
   right: 0;
-  font-size: 9px; font-weight: 600; text-align: center; padding: 2px;
+  font-size: 10px; font-weight: 600; text-align: center; padding: 4px;
+  line-height: 1.1;
 }
 .fab-container.open .fab-action {
   opacity: 1; transform: scale(1);
 }
 .fab-action:hover {
-  background: rgba(45, 70, 160, 0.6); color: #c0d0ff;
+  background: rgba(45, 70, 160, 0.35); color: #c0d0ff;
 }
-.fab-action svg { margin-bottom: 2px; flex-shrink: 0; }
+.fab-action.active {
+  background: rgba(42, 80, 208, 0.4); color: #fff;
+}
+.fab-action svg { margin-bottom: 3px; flex-shrink: 0; }
 
 /* FAB positions in vertical layout (stacked upward from main) */
-.fab-names {
+.fab-arrow-straight {
   bottom: 68px;
 }
 
+.fab-arrow-curve {
+  bottom: 132px;
+}
+
+.fab-delete {
+  bottom: 196px;
+}
+
+.fab-names {
+  bottom: 260px;
+}
+
 .fab-clear {
-  bottom: 128px;
+  bottom: 324px;
 }
 
 .fab-reset {
-  bottom: 188px;
+  bottom: 388px;
 }
 
 .fab-share {
-  bottom: 248px;
+  bottom: 452px;
 }
