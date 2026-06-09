@@ -116,6 +116,8 @@ export default function App() {
     const [fx, fy] = tf(cx, cy), r = (PR / Math.min(s.sx, s.sy)) * 1.8;
     for (let i = s.players.length - 1; i >= 0; i--) {
       const p = s.players[i];
+      // Only consider visible players
+      if (p.team === 1 && !showWhiteTeamRef.current) continue;
       if ((p.x - fx) ** 2 + (p.y - fy) ** 2 < r * r) return i;
     }
     return -1;
@@ -274,7 +276,8 @@ export default function App() {
     c.closePath(); c.clip();
     drawFieldC(c, targetW, targetH, scx, scy, s.vertical);
     drawArrowsC(c, scx, scy, s.arrows, 'move', null, null, 0, null);
-    drawPlayersC(c, scx, scy, s.players, -1);
+    const visiblePlayersForShare = s.players.filter(p => p.team === 0 || (p.team === 1 && showWhiteTeamRef.current));
+    drawPlayersC(c, scx, scy, visiblePlayersForShare, -1);
     c.restore();
     return out;
   }
