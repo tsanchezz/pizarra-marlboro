@@ -65,7 +65,7 @@ header {
 .hint { padding: 3px 14px; font-size: 11px; color: #2a4080; background: #080d30; border-bottom: 1px solid #111840; flex-shrink: 0; }
 
 /* CANVAS */
-.canvas-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px; overflow: hidden; background: #080d30; position: relative; }
+.canvas-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px; overflow: hidden; background: #080d30; }
 canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.8); }
 
 /* MODAL NOMBRES */
@@ -139,7 +139,7 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 
 /* FAB - FLOATING ACTION BUTTON */
 .fab-container {
-  position: absolute; top: 16px; left: 16px; z-index: 30;
+  position: fixed; top: 16px; left: 16px; z-index: 30;
   display: none; pointer-events: none;
 }
 @media (max-width: 679px) {
