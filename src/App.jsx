@@ -20,6 +20,7 @@ export default function App() {
   const canvasRef = useRef(null);
   const logoImgRef = useRef(null);
   const logoReady = useRef(false);
+  const showWhiteTeamRef = useRef(false);
 
   // All mutable game state lives in a ref to avoid re-render overhead during drag/draw
   const s = useRef({
@@ -28,7 +29,7 @@ export default function App() {
     arrowStart: null, arrowCtrl: null, curvePhase: 0,
     mouse: { x: 0, y: 0 },
     W: 0, H: 0, sx: 1, sy: 1,
-    FW: FW_H, FH: FH_H, vertical: false, n: 11,
+    FW: FW_H, FH: FH_H, vertical: false, n: 8,
     mouseDown: false, touchStartXY: null, touchMoved: false,
   }).current;
 
@@ -56,7 +57,7 @@ export default function App() {
     ctx.clearRect(0, 0, s.W, s.H);
     drawFieldC(ctx, s.W, s.H, s.sx, s.sy, s.vertical);
     drawArrowsC(ctx, s.sx, s.sy, s.arrows, s.mode, s.arrowStart, s.arrowCtrl, s.curvePhase, s.mouse);
-    const visiblePlayers = s.players.filter(p => p.team === 'red' || (p.team === 'white' && showWhiteTeam));
+    const visiblePlayers = s.players.filter(p => p.team === 'red' || (p.team === 'white' && showWhiteTeamRef.current));
     drawPlayersC(ctx, s.sx, s.sy, visiblePlayers, s.dragging);
   }
 
@@ -104,6 +105,7 @@ export default function App() {
   }, [teamSize]);
 
   useEffect(() => {
+    showWhiteTeamRef.current = showWhiteTeam;
     draw();
   }, [showWhiteTeam]);
 
