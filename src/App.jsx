@@ -49,16 +49,16 @@ export default function App() {
     logoImgRef.current = img;
   }, []);
 
-  function draw() {
+  const draw = useCallback((teamsToShow = showTeams) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, s.W, s.H);
     drawFieldC(ctx, s.W, s.H, s.sx, s.sy, s.vertical);
     drawArrowsC(ctx, s.sx, s.sy, s.arrows, s.mode, s.arrowStart, s.arrowCtrl, s.curvePhase, s.mouse);
-    const visiblePlayers = s.players.filter(p => (p.team === 'red' && showTeams.red) || (p.team === 'white' && showTeams.white));
+    const visiblePlayers = s.players.filter(p => (p.team === 'red' && teamsToShow.red) || (p.team === 'white' && teamsToShow.white));
     drawPlayersC(ctx, s.sx, s.sy, visiblePlayers, s.dragging);
-  }
+  }, [showTeams]);
 
   const doResize = useCallback(() => {
     const canvas = canvasRef.current;
@@ -293,11 +293,11 @@ export default function App() {
         </div>
         <div className="team-toggles">
           <label className="team-toggle">
-            <input type="checkbox" checked={showTeams.red} onChange={e => { setShowTeams({...showTeams, red: e.target.checked}); s.players = buildPlayers(s.n, s.vertical); draw(); }} />
+            <input type="checkbox" checked={showTeams.red} onChange={e => setShowTeams({...showTeams, red: e.target.checked})} />
             <span className="toggle-label red">Equipo Rojo</span>
           </label>
           <label className="team-toggle">
-            <input type="checkbox" checked={showTeams.white} onChange={e => { setShowTeams({...showTeams, white: e.target.checked}); s.players = buildPlayers(s.n, s.vertical); draw(); }} />
+            <input type="checkbox" checked={showTeams.white} onChange={e => setShowTeams({...showTeams, white: e.target.checked})} />
             <span className="toggle-label white">Equipo Blanco</span>
           </label>
         </div>
