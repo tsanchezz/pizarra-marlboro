@@ -137,33 +137,9 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 .ov-btn.primary:hover { background: #3560e8; }
 .ov-btn.ghost { background: #162060; color: #90b0e0; }
 
-/* TEAM TOGGLES */
-.team-toggles {
-  display: flex; gap: 12px; align-items: center;
-}
-.team-toggle {
-  display: flex; align-items: center; gap: 6px;
-  cursor: pointer; user-select: none;
-  font-size: 12px; font-weight: 600;
-}
-.team-toggle input {
-  cursor: pointer; width: 16px; height: 16px;
-  accent-color: #2a50d0;
-}
-.toggle-label {
-  padding: 4px 8px; border-radius: 12px; font-size: 11px;
-  text-transform: uppercase; letter-spacing: .05em;
-}
-.toggle-label.red {
-  background: rgba(232, 69, 69, 0.15); color: #f08080;
-}
-.toggle-label.white {
-  background: rgba(200, 210, 255, 0.1); color: #b0c0e0;
-}
-
 /* FAB - FLOATING ACTION BUTTON */
 .fab-container {
-  position: absolute; bottom: 16px; right: 16px; z-index: 30;
+  position: absolute; top: 16px; left: 16px; z-index: 30;
   display: none; pointer-events: none;
 }
 @media (max-width: 679px) {
@@ -191,7 +167,8 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
   opacity: 0; transform: translateY(0);
   backdrop-filter: blur(8px);
   pointer-events: auto;
-  right: 0;
+  left: 0;
+  top: 0;
 }
 .fab-container.open .fab-action {
   opacity: 1;
@@ -203,7 +180,7 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 /* FAB positions in vertical layout (stacked downward) */
 .fab-names {
   transform: translateY(0);
-  bottom: -64px;
+  top: 64px;
 }
 .fab-container.open .fab-names {
   transform: translateY(0);
@@ -212,7 +189,7 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 
 .fab-clear {
   transform: translateY(0);
-  bottom: -128px;
+  top: 128px;
 }
 .fab-container.open .fab-clear {
   transform: translateY(0);
@@ -221,7 +198,7 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 
 .fab-reset {
   transform: translateY(0);
-  bottom: -192px;
+  top: 192px;
 }
 .fab-container.open .fab-reset {
   transform: translateY(0);
@@ -230,7 +207,7 @@ canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.
 
 .fab-share {
   transform: translateY(0);
-  bottom: -256px;
+  top: 256px;
 }
 .fab-container.open .fab-share {
   transform: translateY(0);

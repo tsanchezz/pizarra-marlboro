@@ -35,10 +35,9 @@ export default function App() {
   // React state only for UI re-renders
   const [mode, setModeState] = useState('move');
   const [hint, setHint] = useState(HINTS.move);
-  const [teamSize, setTeamSize] = useState(11);
+  const [teamSize, setTeamSize] = useState(8);
   const [showNames, setShowNames] = useState(false);
   const [shareDataUrl, setShareDataUrl] = useState(null);
-  const [showTeams, setShowTeams] = useState({ red: true, white: true });
   const [fabOpen, setFabOpen] = useState(false);
 
   // Preload logo image for canvas drawing
@@ -49,16 +48,15 @@ export default function App() {
     logoImgRef.current = img;
   }, []);
 
-  const draw = useCallback((teamsToShow = showTeams) => {
+  function draw() {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, s.W, s.H);
     drawFieldC(ctx, s.W, s.H, s.sx, s.sy, s.vertical);
     drawArrowsC(ctx, s.sx, s.sy, s.arrows, s.mode, s.arrowStart, s.arrowCtrl, s.curvePhase, s.mouse);
-    const visiblePlayers = s.players.filter(p => (p.team === 'red' && teamsToShow.red) || (p.team === 'white' && teamsToShow.white));
-    drawPlayersC(ctx, s.sx, s.sy, visiblePlayers, s.dragging);
-  }, [showTeams]);
+    drawPlayersC(ctx, s.sx, s.sy, s.players, s.dragging);
+  }
 
   const doResize = useCallback(() => {
     const canvas = canvasRef.current;
@@ -268,8 +266,7 @@ export default function App() {
     c.closePath(); c.clip();
     drawFieldC(c, targetW, targetH, scx, scy, s.vertical);
     drawArrowsC(c, scx, scy, s.arrows, 'move', null, null, 0, null);
-    const visiblePlayers = s.players.filter(p => (p.team === 'red' && showTeams.red) || (p.team === 'white' && showTeams.white));
-    drawPlayersC(c, scx, scy, visiblePlayers, -1);
+    drawPlayersC(c, scx, scy, s.players, -1);
     c.restore();
     return out;
   }
@@ -291,16 +288,7 @@ export default function App() {
           Libertadores de Marlboro
           <span>Pizarra táctica</span>
         </div>
-        <div className="team-toggles">
-          <label className="team-toggle">
-            <input type="checkbox" checked={showTeams.red} onChange={e => setShowTeams({...showTeams, red: e.target.checked})} />
-            <span className="toggle-label red">Equipo Rojo</span>
-          </label>
-          <label className="team-toggle">
-            <input type="checkbox" checked={showTeams.white} onChange={e => setShowTeams({...showTeams, white: e.target.checked})} />
-            <span className="toggle-label white">Equipo Blanco</span>
-          </label>
-        </div>
+        <div style={{ flex: 1 }} />
         <select className="h-select" value={teamSize} onChange={handleTeamSizeChange}>
           <option value={5}>Fútbol 5</option>
           <option value={8}>Fútbol 8</option>
