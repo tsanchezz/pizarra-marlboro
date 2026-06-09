@@ -70,7 +70,17 @@ export default function App() {
     const ratio = s.FH / s.FW;
     if (maxW * ratio <= maxH) { s.W = maxW; s.H = Math.round(maxW * ratio); }
     else { s.H = maxH; s.W = Math.round(maxH / ratio); }
-    canvas.width = s.W; canvas.height = s.H;
+
+    // High DPI support: scale canvas by devicePixelRatio for crisp rendering
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = s.W * dpr;
+    canvas.height = s.H * dpr;
+    canvas.style.width = s.W + 'px';
+    canvas.style.height = s.H + 'px';
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
     s.sx = s.W / s.FW; s.sy = s.H / s.FH;
     // Rebuild positions if orientation changed
     if (vert !== prevVert) {

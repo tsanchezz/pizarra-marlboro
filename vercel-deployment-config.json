@@ -1,0 +1,19 @@
+{
+  "name": "pizarra-libertadores",
+  "version": "1.0.0",
+  "description": "Pizarra Libertadores de Marlboro - Soccer Tactics Board",
+  "public": true,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": { "distDir": "dist" }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
