@@ -381,7 +381,7 @@ export default function App() {
               <span>Borrar</span>
             </button>
             <button className="fab-action fab-names" onClick={() => { setShowNames(true); setFabOpen(false); }} title="Nombres">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
               <span>Nombres</span>
             </button>
             <button className="fab-action fab-clear" onClick={() => { s.arrows = []; draw(); setFabOpen(false); }} title="Limpiar flechas">
