@@ -1,0 +1,128 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* HEADER */
+header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 14px; background: #0d1540;
+  border-bottom: 2px solid #1a2a6e; flex-shrink: 0;
+}
+.logo-wrap {
+  width: 42px; height: 42px; flex-shrink: 0;
+  border-radius: 50%; overflow: hidden; border: 2px solid #2a3f8f;
+}
+.logo-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.club-name { flex: 1; font-size: 13px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff; line-height: 1.2; }
+.club-name span { display: block; font-size: 10px; font-weight: 500; color: #6080c0; letter-spacing: .1em; }
+.h-select {
+  appearance: none; background: #162060; border: 1px solid #2a3f8f;
+  color: #fff; font-size: 13px; font-weight: 600;
+  padding: 7px 26px 7px 10px; border-radius: 7px; cursor: pointer; outline: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='9' height='5'%3E%3Cpath d='M0 0l4.5 5 4.5-5z' fill='%236080c0'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 8px center;
+}
+
+/* TOOLBAR */
+.toolbar {
+  display: flex; align-items: center; gap: 5px;
+  padding: 7px 12px; background: #0d1540;
+  border-bottom: 1px solid #162060; flex-shrink: 0; flex-wrap: wrap;
+}
+.tg { display: flex; align-items: center; gap: 2px; background: #09103a; border: 1px solid #162060; border-radius: 8px; padding: 3px; }
+.tb {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 12px; font-size: 13px; font-weight: 600;
+  color: #5070b0; background: transparent; border: none;
+  border-radius: 6px; cursor: pointer; white-space: nowrap;
+  transition: color .12s, background .12s;
+}
+.tb svg { stroke: currentColor; }
+.tb:hover { color: #c0d0ff; background: #162060; }
+.tb.active { color: #fff; background: #2a50d0; font-weight: 700; }
+.tb.red:hover { color: #f07070; background: rgba(240,100,100,.12); }
+.tb.names-btn { color: #c0a030; }
+.tb.names-btn:hover { color: #ffe080; background: rgba(200,160,40,.12); }
+.tb.share { color: #6090e0; }
+.tb.share:hover { color: #90c0ff; background: rgba(80,140,255,.1); }
+.ts { flex: 1; }
+
+/* HINT */
+.hint { padding: 3px 14px; font-size: 11px; color: #2a4080; background: #080d30; border-bottom: 1px solid #111840; flex-shrink: 0; }
+
+/* CANVAS */
+.canvas-wrap { flex: 1; display: flex; align-items: center; justify-content: center; padding: 8px; overflow: hidden; background: #080d30; }
+canvas { display: block; border-radius: 8px; box-shadow: 0 6px 36px rgba(0,0,0,.8); }
+
+/* MODAL NOMBRES */
+.modal-bg {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(5,8,28,0.88);
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 16px; overflow-y: auto;
+}
+.modal-box {
+  background: #0d1540; border: 1px solid #2a3f8f; border-radius: 14px;
+  padding: 20px 18px; width: 100%; max-width: 460px;
+  display: flex; flex-direction: column; gap: 16px; margin: auto;
+}
+.modal-box h3 { font-size: 15px; font-weight: 800; color: #fff; letter-spacing: .04em; }
+.team-section { display: flex; flex-direction: column; gap: 8px; }
+.team-label {
+  font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px; border-radius: 20px; display: inline-block; width: fit-content;
+}
+.team-label.red  { background: rgba(232,69,69,.2); color: #f08080; }
+.team-label.white { background: rgba(200,210,255,.1); color: #b0c0e0; }
+.players-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 6px; }
+.player-row { display: flex; align-items: center; gap: 7px; }
+.player-num {
+  width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800;
+}
+.player-num.red   { background: #e84545; color: #fff; }
+.player-num.white { background: #fff; color: #0d1540; }
+.player-inp {
+  flex: 1; background: #162060; border: 1px solid #2a3f8f; color: #fff;
+  font-size: 13px; padding: 6px 9px; border-radius: 7px; outline: none; min-width: 0;
+  -webkit-user-select: text; user-select: text; touch-action: auto;
+}
+.player-inp::placeholder { color: #3a5090; }
+.player-inp:focus { border-color: #4a70d0; }
+.modal-actions { display: flex; gap: 10px; }
+.mbtn { flex: 1; padding: 11px; font-size: 14px; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; }
+.mbtn.ok { background: #2a50d0; color: #fff; }
+.mbtn.ok:hover { background: #3560e8; }
+.mbtn.cl { background: #162060; color: #90b0e0; }
+.mbtn.cl:hover { background: #1d2c78; }
+
+/* OVERLAY COMPARTIR */
+.overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(5,8,28,0.93);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 20px; gap: 14px;
+}
+.ov-title { font-size: 15px; font-weight: 700; color: #fff; letter-spacing: .04em; }
+.ov-img {
+  max-width: 100%; max-height: 55vh;
+  border-radius: 10px; border: 2px solid #2a3f8f;
+  box-shadow: 0 10px 50px rgba(0,0,0,.7);
+}
+.ov-tip { font-size: 13px; color: #6080c0; text-align: center; max-width: 300px; line-height: 1.55; }
+.ov-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.ov-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 11px 22px; font-size: 14px; font-weight: 700;
+  border-radius: 9px; cursor: pointer; border: none;
+}
+.ov-btn svg { stroke: currentColor; }
+.ov-btn.primary { background: #2a50d0; color: #fff; }
+.ov-btn.primary:hover { background: #3560e8; }
+.ov-btn.ghost { background: #162060; color: #90b0e0; }
